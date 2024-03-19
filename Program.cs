@@ -1,7 +1,10 @@
 using AutoMapper;
+using demo_mail_marketing.Configuration;
+using demo_mail_marketing.Data;
 using demo_mail_marketing.IRepositories;
 using demo_mail_marketing.Models;
 using demo_mail_marketing.Repositories;
+using demo_mail_marketing.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,8 +19,12 @@ builder.Services.AddCors((options) => {
 });
 
 builder.Services.AddDbContext<MailDemoDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddTransient<IMailService, MailService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMailDataRepository, MailDataRepository>();

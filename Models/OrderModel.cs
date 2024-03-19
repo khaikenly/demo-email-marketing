@@ -7,6 +7,6 @@ namespace demo_mail_marketing.Models
 {
     public class OrderModel
     {
-        
+        public List<string> Email { get; set; }
     }
 }
